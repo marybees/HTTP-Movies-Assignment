@@ -1,16 +1,14 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
-import Movie from "./Movie";
 
 const initialMovie = {
-  id: "",
   title: "",
   director: "",
-  metascore: "",
+  metascore: 0,
 };
 
-const UpdateMovie = (props) => {
+const UpdateMovie = () => {
   const history = useHistory();
   const { id } = useParams();
   const [movie, setMovie] = useState(initialMovie);
@@ -49,6 +47,7 @@ const UpdateMovie = (props) => {
     <div>
       <h2>Update Movie</h2>
       <form onSubmit={handleSubmit}>
+        <label>Title:</label>
         <input
           type="text"
           name="title"
@@ -56,6 +55,7 @@ const UpdateMovie = (props) => {
           placeholder="Title"
           value={movie.title}
         />
+        <label>Director:</label>
         <input
           type="text"
           name="director"
@@ -63,6 +63,7 @@ const UpdateMovie = (props) => {
           placeholder="Director"
           value={movie.director}
         />
+        <label>Metascore:</label>
         <input
           type="text"
           name="metascore"
@@ -70,7 +71,7 @@ const UpdateMovie = (props) => {
           placeholder="Metascore"
           value={movie.metascore}
         />
-        <button onClick={handleSubmit}>Update</button>
+        <button>Update</button>
       </form>
     </div>
   );

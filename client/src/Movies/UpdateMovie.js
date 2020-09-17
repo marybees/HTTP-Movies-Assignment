@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useHistory } from "react-router-dom";
 import axios from "axios";
+import Movie from "./Movie";
 
 const initialMovie = {
   id: "",
@@ -16,28 +17,29 @@ const UpdateMovie = (props) => {
 
   useEffect(() => {
     axios
-      .put(`http://localhost:5000/api/movies/${id}`)
-      .then((res) => setMovie(res.data))
+      .get(`http://localhost:5000/api/movies/${id}`)
+      .then((res) => {
+          console.log("Getting response:", res) 
+          setMovie(res.data)}
       .catch((err) => console.log(err));
   }, [id]);
 
-  const changeHandler = (e) => {
-    e.persist();
-    let value = e.target.value;
+  const handleChanges = (e) => {
+    e.preventDefault();
+    setMovie({
+      ...movie,
+      [e.target.name]: e.target.value,
+    });
   };
-
-  setMovie({
-    ...movie,
-    [e.target.name]: value,
-  });
 
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .put(`http://localhost:3333/items/${id}`, movie)
+      .put(`http://localhost:5000/api/movies/${id}`, movie)
       .then((res) => {
-        props.setItems(res.data);
-        history.push(`/item-list/${id}`);
+        console.log(res)
+        setMovie(initialMovie);
+        history.push(`/movies/${id}`);
       })
       .catch((err) => console.log(err));
   };
@@ -49,25 +51,25 @@ const UpdateMovie = (props) => {
         <input
           type="text"
           name="title"
-          onChange={changeHandler}
+          onChange={handleChanges}
           placeholder="Title"
           value={movie.title}
         />
         <input
           type="text"
           name="director"
-          onChange={changeHandler}
+          onChange={handleChanges}
           placeholder="Director"
           value={movie.director}
         />
         <input
           type="text"
           name="metascore"
-          onChange={changeHandler}
+          onChange={handleChanges}
           placeholder="Metascore"
           value={movie.metascore}
         />
-        <button>Update</button>
+        <button onClick={handleSubmit}>Update</button>
       </form>
     </div>
   );

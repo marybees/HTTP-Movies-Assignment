@@ -19,8 +19,9 @@ const UpdateMovie = (props) => {
     axios
       .get(`http://localhost:5000/api/movies/${id}`)
       .then((res) => {
-          console.log("Getting response:", res) 
-          setMovie(res.data)}
+        console.log("Getting response:", res);
+        setMovie(res.data);
+      })
       .catch((err) => console.log(err));
   }, [id]);
 
@@ -37,7 +38,7 @@ const UpdateMovie = (props) => {
     axios
       .put(`http://localhost:5000/api/movies/${id}`, movie)
       .then((res) => {
-        console.log(res)
+        console.log(res);
         setMovie(initialMovie);
         history.push(`/movies/${id}`);
       })
